@@ -1,0 +1,29 @@
+@model MVC.Models.Bai2
+
+<h2>Máy tính đơn giản</h2>
+
+<form asp-action="Index" method="post">
+    <div>
+        <label>Nhập số A:</label>
+        <input type="number" asp-for="A" step="any" />
+    </div>
+    <div>
+        <label>Nhập số B:</label>
+        <input type="number" asp-for="B" step="any" />
+    </div>
+    <div>
+        <label>Chọn phép toán:</label>
+        <select name="op">
+            <option value="sum">Cộng</option>
+            <option value="diff">Trừ</option>
+            <option value="mul">Nhân</option>
+            <option value="div">Chia</option>
+        </select>
+    </div>
+    <button type="submit">Tính</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <h3>Kết quả: @ViewBag.Message</h3>
+}
