@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using MVC.Data;
+// Ensure the following using directive matches the namespace where ApplicationDbContext is defined
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApplicationDbcontext>(options =>
+  options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
+?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
