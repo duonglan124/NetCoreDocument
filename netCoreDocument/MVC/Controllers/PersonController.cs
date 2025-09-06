@@ -113,17 +113,12 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.Person == null)
-            {
-                return Problem("Entity set 'ApplicationDbcontext.Person'  is null.");
-            }
             var person = await _context.Person.FindAsync(id);
             if (person != null)
             {
                 _context.Person.Remove(person);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         private bool PersonExists(string id)
