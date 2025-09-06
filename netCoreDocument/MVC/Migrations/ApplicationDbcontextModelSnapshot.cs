@@ -18,13 +18,18 @@ namespace MVC.Migrations
 
             modelBuilder.Entity("MVC.Models.Person", b =>
                 {
-                    b.Property<string>("FullName")
+                    b.Property<string>("PersonId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("NamSinh")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("FullName");
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PersonId");
 
                     b.ToTable("Person");
                 });

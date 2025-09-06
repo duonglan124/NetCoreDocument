@@ -14,12 +14,13 @@ namespace MVC.Migrations
                 name: "Person",
                 columns: table => new
                 {
+                    PersonId = table.Column<string>(type: "TEXT", nullable: false),
                     FullName = table.Column<string>(type: "TEXT", nullable: false),
-                    NamSinh = table.Column<int>(type: "INTEGER", nullable: false)
+                    Address = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person", x => x.FullName);
+                    table.PrimaryKey("PK_Person", x => x.PersonId);
                 });
         }
 

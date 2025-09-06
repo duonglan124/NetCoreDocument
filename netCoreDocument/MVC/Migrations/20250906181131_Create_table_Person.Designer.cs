@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbcontext))]
-    [Migration("20250904072222_Create_table_Person")]
+    [Migration("20250906181131_Create_table_Person")]
     partial class Create_table_Person
     {
         /// <inheritdoc />
@@ -21,13 +21,18 @@ namespace MVC.Migrations
 
             modelBuilder.Entity("MVC.Models.Person", b =>
                 {
-                    b.Property<string>("FullName")
+                    b.Property<string>("PersonId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("NamSinh")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("FullName");
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PersonId");
 
                     b.ToTable("Person");
                 });

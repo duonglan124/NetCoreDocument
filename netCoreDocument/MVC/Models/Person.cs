@@ -6,10 +6,13 @@ namespace MVC.Models
     [Table("Person")]
     public class Person
     {
-      
+
         [Key]
-        public string FullName { get; set; } 
-        public int NamSinh { get; set; } 
+        [Required]
+        public string? PersonId { get; set; } 
+        [Required]
+        public string? FullName { get; set; } 
+        public string? Address { get; set; } 
 
     }
 }
