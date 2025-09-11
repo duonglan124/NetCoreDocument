@@ -9,10 +9,10 @@ namespace MVC.Models
 
         [Key]
         [Required]
-        public string? PersonId { get; set; } 
+        public string? PersonId { get; set; }
         [Required]
-        public string? FullName { get; set; } 
-        public string? Address { get; set; } 
+        public string? FullName { get; set; }
+        public string? Address { get; set; }
 
     }
 }
