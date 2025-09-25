@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using MVC.Data;
 using MVC.Models;
@@ -15,17 +14,26 @@ namespace MVC.Controllers
             _context = context;
         }
 
+        // GET: Person
         public async Task<IActionResult> Index()
         {
             var model = await _context.Person.ToListAsync();
             return View(model);
-
         }
-        public async Task<IActionResult> Create([Bind("PersonId,FullName,Address")] Person ps)
+
+        // GET: Person/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Person/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("PersonId,FullName,Address,PhoneNumber")] Person ps)
         {
             if (ModelState.IsValid)
             {
-
                 _context.Add(ps);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -33,20 +41,7 @@ namespace MVC.Controllers
             return View(ps);
         }
 
-        // POST: Person/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([Bind("PersonId,FullName,Address")] Person person)
-        {
-            if (ModelState.IsValid)
-            {
-
-                _context.Add(person);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(person);
-        }
+        // GET: Person/Edit/5
         public async Task<IActionResult> Edit(string? id)
         {
             if (id == null || _context.Person == null)
@@ -61,9 +56,11 @@ namespace MVC.Controllers
             }
             return View(person);
         }
+
+        // POST: Person/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("PersonId,FullName,Address")] Person person)
+        public async Task<IActionResult> Edit(string id, [Bind("PersonId,FullName,Address,PhoneNumber")] Person person)
         {
             if (id != person.PersonId)
             {
@@ -92,6 +89,8 @@ namespace MVC.Controllers
             }
             return View(person);
         }
+
+        // GET: Person/Delete/5
         public async Task<IActionResult> Delete(string? id)
         {
             if (id == null || _context.Person == null)
@@ -108,6 +107,7 @@ namespace MVC.Controllers
 
             return View(person);
         }
+
         // POST: Person/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -121,6 +121,7 @@ namespace MVC.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
         private bool PersonExists(string id)
         {
             return (_context.Person?.Any(e => e.PersonId == id)).GetValueOrDefault();
