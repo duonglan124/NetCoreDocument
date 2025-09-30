@@ -10,5 +10,6 @@ namespace MVC.Data
 
         }
         public DbSet<Person> Person { get; set; }
+        public DbSet<Employee> Employee { get; set; }
     }
 }

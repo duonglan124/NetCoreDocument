@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using MVC.Data;
-// Ensure the following using directive matches the namespace where ApplicationDbContext is defined
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<ApplicationDbcontext>(options =>
-  options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
-?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
+
+// Sửa lại ApplicationDbcontext thành ApplicationDbContext ở đây
+builder.Services.AddDbContext<ApplicationDbcontext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -20,16 +20,13 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles(); // Bạn có thể cần dòng này để các file tĩnh (CSS, JS) hoạt động
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
