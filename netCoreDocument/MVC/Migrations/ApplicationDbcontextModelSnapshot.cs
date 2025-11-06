@@ -16,37 +16,6 @@ namespace MVC.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
-            modelBuilder.Entity("MVC.Models.DaiLy", b =>
-                {
-                    b.Property<string>("MaDaiLy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DiaChi")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DienThoai")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("MaHTPP")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NguoiDaiDien")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TenDaiLy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("MaDaiLy");
-
-                    b.HasIndex("MaHTPP");
-
-                    b.ToTable("DaiLy");
-                });
-
             modelBuilder.Entity("MVC.Models.HeThongPhanPhoi", b =>
                 {
                     b.Property<string>("MaHTPP")
@@ -97,17 +66,6 @@ namespace MVC.Migrations
                         .HasColumnType("TEXT");
 
                     b.ToTable("Employee");
-                });
-
-            modelBuilder.Entity("MVC.Models.DaiLy", b =>
-                {
-                    b.HasOne("MVC.Models.HeThongPhanPhoi", "HeThongPhanPhoi")
-                        .WithMany()
-                        .HasForeignKey("MaHTPP")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HeThongPhanPhoi");
                 });
 
             modelBuilder.Entity("MVC.Models.Employee", b =>

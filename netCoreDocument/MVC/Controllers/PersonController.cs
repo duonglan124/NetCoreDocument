@@ -1,13 +1,18 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC.Data;
 using MVC.Models;
+using MVC.Models.Process;
+using System.Data;
+
 
 namespace MVC.Controllers
 {
     public class PersonController : Controller
     {
         private readonly ApplicationDbcontext _context;
+        private ExcelProcess _excelProcess = new ExcelProcess();
 
         public PersonController(ApplicationDbcontext context)
         {
@@ -22,12 +27,76 @@ namespace MVC.Controllers
         }
 
         // GET: Person/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Person/Create
+       public IActionResult Uploads()
+{
+    return View();
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Uploads(IFormFile file)
+{
+    if (file != null)
+    {
+        string fileExtension = Path.GetExtension(file.FileName);
+        if (fileExtension != ".xls" && fileExtension != ".xlsx")
+        {
+            ModelState.AddModelError("", "Please choose an Excel file (.xls or .xlsx) to upload!");
+        }
+        else
+        {
+            //Tạo thư mục lưu file nếu chưa có
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Excels");
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+
+            //Đặt lại tên file (tránh ký tự ':' trong giờ)
+            var filename = DateTime.Now.ToString("yyyyMMdd_HHmmss") + fileExtension;
+            var filePath = Path.Combine(uploadFolder, filename);
+
+            //Lưu file Excel lên server
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            //BẮT BUỘC: set license cho EPPlus (đây là chỗ lỗi LicenseNotSetException)
+            OfficeOpenXml.ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            // Đọc dữ liệu từ file Excel
+            var dt = _excelProcess.ExcelToDataTable(filePath);
+
+            // Ghi dữ liệu xuống database
+            foreach (DataRow row in dt.Rows)
+            {
+                var ps = new Person
+                {
+                    PersonId = row[0].ToString(),
+                    FullName = row[1].ToString(),
+                    Address = row[2].ToString(),
+                    PhoneNumber = row[3].ToString()
+                };
+                _context.Person.Add(ps);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+    }
+
+    ModelState.AddModelError("", "Vui lòng chọn file Excel để tải lên!");
+    return View();
+}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PersonId,FullName,Address,PhoneNumber")] Person ps)
