@@ -5,6 +5,7 @@ using MVC.Data;
 using MVC.Models;
 using MVC.Models.Process;
 using System.Data;
+using X.PagedList;
 
 
 namespace MVC.Controllers
@@ -20,11 +21,17 @@ namespace MVC.Controllers
         }
 
         // GET: Person
-        public async Task<IActionResult> Index()
-        {
-            var model = await _context.Person.ToListAsync();
-            return View(model);
-        }
+        public async Task<IActionResult> Index(int? page)
+      {
+        int pageNumber = page ?? 1;
+        int pageSize = 5;
+
+        var list = await _context.Person.ToListAsync();
+        var model = list.ToPagedList(pageNumber, pageSize);
+
+        return View(model);
+    }
+
 
         // GET: Person/Create
         [HttpGet]
@@ -80,7 +87,7 @@ public async Task<IActionResult> Uploads(IFormFile file)
             {
                 var ps = new Person
                 {
-                    PersonId = row[0].ToString(),
+                    PersonId = row[0].ToString(), 
                     FullName = row[1].ToString(),
                     Address = row[2].ToString(),
                     PhoneNumber = row[3].ToString()
