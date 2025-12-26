@@ -54,6 +54,20 @@ namespace MVC.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("MVC.Models.Student", b =>
+                {
+                    b.Property<string>("StudentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StudentName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("StudentId");
+
+                    b.ToTable("Student");
+                });
+
             modelBuilder.Entity("MVC.Models.Employee", b =>
                 {
                     b.HasBaseType("MVC.Models.Person");
