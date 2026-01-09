@@ -2,6 +2,7 @@
 using MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,50 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260109103058_Create_Table_HTPP")]
+    partial class Create_Table_HTPP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
-
-            modelBuilder.Entity("ProjectMVC.Models.DaiLy", b =>
-                {
-                    b.Property<string>("MaDaiLy")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DiaChi")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DienThoai")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("HeThongPhanPhoiMaHTPP")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MaHTPP")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NguoiDaiDien")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TenDaiLy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("MaDaiLy");
-
-                    b.HasIndex("HeThongPhanPhoiMaHTPP");
-
-                    b.ToTable("DaiLy");
-                });
 
             modelBuilder.Entity("ProjectMVC.Models.HeThongPhanPhoi", b =>
                 {
@@ -98,17 +63,6 @@ namespace ProjectMVC.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("ProjectMVC.Models.DaiLy", b =>
-                {
-                    b.HasOne("ProjectMVC.Models.HeThongPhanPhoi", "HeThongPhanPhoi")
-                        .WithMany("DaiLys")
-                        .HasForeignKey("HeThongPhanPhoiMaHTPP")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HeThongPhanPhoi");
-                });
-
             modelBuilder.Entity("ProjectMVC.Models.Employee", b =>
                 {
                     b.HasOne("ProjectMVC.Models.Person", null)
@@ -116,11 +70,6 @@ namespace ProjectMVC.Migrations
                         .HasForeignKey("ProjectMVC.Models.Employee", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ProjectMVC.Models.HeThongPhanPhoi", b =>
-                {
-                    b.Navigation("DaiLys");
                 });
 #pragma warning restore 612, 618
         }

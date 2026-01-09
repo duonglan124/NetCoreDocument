@@ -1,18 +1,18 @@
-@model ProjectMVC.Models.Person
+@model ProjectMVC.Models.Person// định nghĩa model Person để sử dụng trong view
 
-@{
-    ViewData["Title"] = "Create";
+@{// thiết lập tiêu đề trang
+    ViewData["Title"] = "Create";// tiêu đề trang là Create
 }
 
-<h1>Create</h1>
+<h1>Create</h1> <!-- tiêu đề chính của trang -->
 
 <h4>Person</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+<div class="row"> <!-- tạo một hàng để chứa form -->
+    <div class="col-md-4"> <!-- tạo một cột chiếm 4/12 chiều rộng màn hình -->
+        <form asp-action="Create"> <!-- bắt đầu form với hành động Create -->   
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div> <!-- hiển thị tóm tắt lỗi xác thực mô hình nếu có -->
+            <div class="form-group"><!-- tạo nhóm form cho PersonId --> 
                 <label asp-for="PersonId" class="control-label"></label>
                 <input asp-for="PersonId" class="form-control" />
                 <span asp-validation-for="PersonId" class="text-danger"></span>
@@ -30,9 +30,10 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a> <!-- liên kết trở về trang Index -->
+    <a asp-controller="Home" asp-action="Index">Home</a> <!-- liên kết đến trang Home -->   
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts { <!-- phần kịch bản bổ sung cho trang -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} <!-- bao gồm kịch bản xác thực từ partial view -->
 }

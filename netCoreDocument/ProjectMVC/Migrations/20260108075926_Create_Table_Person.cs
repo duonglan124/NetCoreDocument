@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;// nhập thư viện cần thiết
 
-#nullable disable
+#nullable disable // tắt cảnh báo nullables
 
 namespace ProjectMVC.Migrations
 {
@@ -24,7 +24,7 @@ namespace ProjectMVC.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
+        protected override void Down(MigrationBuilder migrationBuilder)// phương thức Down() để xóa bảng
         {
             migrationBuilder.DropTable(
                 name: "Person");
